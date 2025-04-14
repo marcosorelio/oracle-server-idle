@@ -3,7 +3,7 @@
 # Define log file
 LOG_FILE="uptime-no-idle.log"
 FILE="wget_file_temp.iso"
-URL="https://cdimage.debian.org/debian-cd/current/amd64/iso-dvd/SHA256SUMS.sign"
+URL="https://cdimage.debian.org/debian-cd/current/amd64/iso-dvd/debian-12.10.0-amd64-DVD-1.iso"
 
 # Function to log events
 log_event() {
@@ -28,7 +28,7 @@ if ! command -v "$COMMAND" &>/dev/null; then
     log_event "ERROR" "Command '$COMMAND' not found.  Exiting."
 else
     log_event "INFO" "Starting Stress Test '$FILE'."
-    stress --cpu 1 --io 4 --vm 2 --vm-bytes 10128M --timeout 10s
+    stress -q --cpu 1 --io 4 --vm 2 --vm-bytes 10128M --timeout 10m
 fi
 
 # Check if wget test exists, if not don't run
@@ -38,7 +38,7 @@ if ! command -v "$COMMAND" &>/dev/null; then
     log_event "ERROR" "Command '$COMMAND' not found.  Exiting."
 else
     log_event "INFO" "Starting Downloading File '$FILE'."
-    wget --output-document $FILE $URL
+    wget -q --output-document $FILE $URL
     if [ -f "$FILE" ]; then
         log_event "INFO" "Download '$FILE' finalized."
         rm FILE
