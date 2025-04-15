@@ -47,6 +47,23 @@ else
     fi
 fi
 
+# update and upgrade the system
+log_event "INFO" "Updating package lists..."
+apt update -y
+if [ $? -ne 0 ]; then
+    log_event "ERROR" "Failed to update package lists."
+    return 1
+fi
+
+log_event "INFO" "Upgrading packages..."
+apt upgrade -y
+if [ $? -ne 0 ]; then
+    log_event "ERROR" "Failed to upgrade packages."
+    return 1
+fi
+log_event "INFO" "System update and upgrade completed successfully."
+
 # End: Script
 log_event "INFO" "Script finished successfully."
+
 exit 0
